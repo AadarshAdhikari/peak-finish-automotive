@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07090d">
+  <meta name="description" content="Get a guided mobile car detailing recommendation and request a booking with Peak Finish Automotive.">
+  <title>Book a Detail | Peak Finish Automotive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Peak Finish Automotive home">
+      <span class="brand-mark">PF</span>
+      <span><strong>PEAK FINISH</strong><small>AUTOMOTIVE</small></span>
+    </a>
+    <a class="header-call" href="tel:0410442507">Call us</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <span class="eyebrow">Sydney mobile car detailing</span>
+      <h1>Find the right detail.<br><em>Know the price.</em></h1>
+      <p>Answer a few quick questions. We’ll recommend the right package, show what is included and send your request to Peak Finish.</p>
+      <div class="trust-row">
+        <span>★ 5-star customer feedback</span>
+        <span>60+ vehicles completed</span>
+        <span>Price agreed before work</span>
+      </div>
+    </section>
+
+    <section class="booking-shell" aria-labelledby="booking-title">
+      <div class="progress-head">
+        <div>
+          <span class="eyebrow">Guided booking</span>
+          <h2 id="booking-title">Build your detail</h2>
+        </div>
+        <span id="stepLabel">Step 1 of 6</span>
+      </div>
+      <div class="progress-track"><span id="progressBar"></span></div>
+
+      <form id="bookingForm" novalidate>
+        <section class="form-step active" data-step="1">
+          <div class="step-heading"><span>1</span><div><h3>Tell us about your vehicle</h3><p>This sets the correct starting price.</p></div></div>
+          <div class="field-grid two">
+            <label>Vehicle make<input name="make" required placeholder="e.g. Toyota"></label>
+            <label>Vehicle model<input name="model" required placeholder="e.g. Prado"></label>
+            <label>Year<input name="year" inputmode="numeric" placeholder="e.g. 2022"></label>
+            <label>Registration<input name="registration" placeholder="Optional"></label>
+          </div>
+          <fieldset>
+            <legend>Select vehicle size</legend>
+            <div class="option-grid" id="vehicleOptions"></div>
+          </fieldset>
+        </section>
+
+        <section class="form-step" data-step="2">
+          <div class="step-heading"><span>2</span><div><h3>What condition is it in?</h3><p>Be honest—the right package saves surprises on arrival.</p></div></div>
+          <fieldset>
+            <legend>General condition</legend>
+            <div class="option-grid compact">
+              <label class="select-card"><input type="radio" name="condition" value="light" required><span><strong>Light</strong><small>Regularly maintained, dust and light dirt</small></span></label>
+              <label class="select-card"><input type="radio" name="condition" value="moderate"><span><strong>Moderate</strong><small>Needs a thorough interior and exterior reset</small></span></label>
+              <label class="select-card"><input type="radio" name="condition" value="heavy"><span><strong>Heavy</strong><small>Neglected, excessive debris or difficult contamination</small></span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>What applies to your vehicle?</legend>
+            <div class="check-grid" id="conditionFlags"></div>
+          </fieldset>
+          <label>Anything else we should know?<textarea name="conditionNotes" rows="3" placeholder="Tell us about stains, odours, access or areas needing attention"></textarea></label>
+        </section>
+
+        <section class="form-step" data-step="3">
+          <div class="step-heading"><span>3</span><div><h3>Your recommended package</h3><p>You remain in control. We’ll discuss any change before starting.</p></div></div>
+          <div id="recommendation" class="recommendation"></div>
+          <fieldset>
+            <legend>Choose your package</legend>
+            <div class="package-grid" id="packageOptions"></div>
+          </fieldset>
+          <details class="scope-details"><summary>Compare exactly what is included</summary><div id="packageComparison"></div></details>
+        </section>
+
+        <section class="form-step" data-step="4">
+          <div class="step-heading"><span>4</span><div><h3>Customise your detail</h3><p>Add only what your vehicle needs.</p></div></div>
+          <div class="addon-grid" id="addonOptions"></div>
+          <p class="fine-print">Add-on prices are starting prices. Final pricing depends on vehicle condition, affected area and time required.</p>
+        </section>
+
+        <section class="form-step" data-step="5">
+          <div class="step-heading"><span>5</span><div><h3>Where and when?</h3><p>We come to your home or workplace across Sydney.</p></div></div>
+          <div class="field-grid two">
+            <label>Full name<input name="customerName" required autocomplete="name"></label>
+            <label>Mobile number<input name="phone" required type="tel" autocomplete="tel" placeholder="04xx xxx xxx"></label>
+            <label>Email<input name="email" required type="email" autocomplete="email"></label>
+            <label>Preferred date<input name="date" required type="date"></label>
+            <label class="wide">Service address<input name="address" required autocomplete="street-address" placeholder="Street, suburb and postcode"></label>
+            <label>Preferred time<select name="time" required><option value="">Choose a time</option><option>7:00 am – 10:00 am</option><option>10:00 am – 1:00 pm</option><option>1:00 pm – 5:00 pm</option><option>Flexible</option></select></label>
+            <label>Payment method<select name="payment" required><option value="">Choose payment</option><option>Cash on completion</option><option>PayID</option><option>Bank transfer</option><option>EFTPOS</option></select></label>
+          </div>
+          <div class="requirements">
+            <strong>Location requirements</strong>
+            <label><input type="checkbox" name="water" required> Outdoor water tap is available</label>
+            <label><input type="checkbox" name="power" required> Standard power outlet is available</label>
+            <label><input type="checkbox" name="parking" required> Safe, legal working space is available</label>
+          </div>
+        </section>
+
+        <section class="form-step" data-step="6">
+          <div class="step-heading"><span>6</span><div><h3>Review your request</h3><p>Nothing extra will be charged without your approval.</p></div></div>
+          <div id="orderSummary" class="order-summary"></div>
+          <div class="notice">
+            <strong>Important pricing information</strong>
+            <p>All prices shown are starting prices and Peak Finish Automotive is not currently registered for GST, so no GST is added. Your selected package is based on the information provided. We will inspect the vehicle on arrival. If additional time or specialised treatment is required, we will explain the recommended upgrade and price before starting. If you decline, we can complete only the work included in your selected package and some contamination may remain.</p>
+          </div>
+          <label class="consent"><input type="checkbox" name="terms" required> I confirm my details are accurate and accept the condition and pricing policy above.</label>
+          <p class="fine-print">Submitting this request does not automatically confirm the appointment. Peak Finish Automotive will contact you to confirm availability and the final scope.</p>
+        </section>
+
+        <div class="form-actions">
+          <button type="button" class="secondary" id="backBtn" hidden>Back</button>
+          <button type="button" class="primary" id="nextBtn">Continue</button>
+          <button type="submit" class="primary" id="submitBtn" hidden>Send booking request</button>
+        </div>
+      </form>
+
+      <section id="successPanel" class="success-panel" hidden>
+        <span class="success-icon">✓</span>
+        <span class="eyebrow">Request received</span>
+        <h2>Thank you, <span id="successName"></span>.</h2>
+        <p>Your request number is <strong id="successOrder"></strong>. Your appointment is awaiting confirmation from Peak Finish Automotive.</p>
+        <div class="success-actions">
+          <a id="smsLink" class="primary button-link" href="#">Message Peak Finish</a>
+          <button class="secondary" id="newBooking">Create another request</button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <aside class="price-dock" id="priceDock" aria-live="polite">
+    <div><small>Estimated starting total</small><strong id="livePrice">Select a vehicle</strong></div>
+    <span id="livePackage">No package selected</span>
+  </aside>
+
+  <footer>
+    <strong>Peak Finish Automotive</strong>
+    <p>Professional mobile detailing across Sydney · 7 days, subject to availability</p>
+    <div><a href="tel:0410442507">0410 442 507</a><a href="tel:0450947025">0450 947 025</a></div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
