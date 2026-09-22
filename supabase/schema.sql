@@ -18,5 +18,4 @@ create policy "Approved admins update bookings" on public.bookings for update to
 create or replace function public.set_updated_at() returns trigger language plpgsql as $$begin new.updated_at=now();return new;end$$;
 drop trigger if exists bookings_updated_at on public.bookings;
 create trigger bookings_updated_at before update on public.bookings for each row execute function public.set_updated_at();
--- Replace the second email before running.
-insert into public.admin_users(email,display_name) values ('aadarshadhikari3@gmail.com','Aadarsh'),('replace-with-sima-email@example.com','Sima') on conflict(email) do update set display_name=excluded.display_name;
+insert into public.admin_users(email,display_name) values ('aadarshadhikari3@gmail.com','Aadarsh'),('simashah55555@gmail.com','Sima') on conflict(email) do update set display_name=excluded.display_name;
