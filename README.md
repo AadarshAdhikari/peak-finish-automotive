@@ -1,6 +1,6 @@
 # Peak Finish Automotive Booking Assistant
 
-A mobile-first GitHub Pages-ready prototype for Peak Finish Automotive.
+A mobile-first booking, pricing and job-management system for Peak Finish Automotive.
 
 ## Included
 
@@ -11,8 +11,10 @@ A mobile-first GitHub Pages-ready prototype for Peak Finish Automotive.
 - No-GST pricing notice
 - Cash, PayID, bank transfer and EFTPOS choices
 - Order-number generation and customer confirmation
-- Local admin preview for Aadarsh and Sima
-- Job completion and pre-filled Google review request
+- Secure passwordless admin access for Aadarsh and Sima
+- Shared Supabase order database with row-level security
+- Email confirmations and optional SMS notifications
+- Job completion and one-click Google review requests
 
 ## Preview locally
 
@@ -24,19 +26,21 @@ python3 -m http.server 8080
 
 Open `http://localhost:8080`. The admin preview is at `http://localhost:8080/admin.html`.
 
-## Important production work
+## Secure production setup
 
-The current prototype stores test submissions in the visitor's browser. Before public launch, connect:
+The customer form works in local preview mode until Supabase is configured. To switch on shared orders and notifications:
 
-1. Supabase/Postgres for shared booking storage.
-2. Supabase Auth with two approved accounts (Aadarsh and Sima).
-3. Row-level security so customers cannot read bookings.
-4. An email/SMS provider for confirmations, reminders and review requests.
-5. Address autocomplete and server-side travel-distance calculation.
-6. A private environment configuration for all keys.
+1. Create a Supabase project and run `supabase/schema.sql` in its SQL Editor. Replace the placeholder Sima email first.
+2. Enter the project's public URL and publishable key in `config.js`. These values are safe to expose; never place a secret or service-role key there.
+3. Deploy both folders inside `supabase/functions` as Edge Functions.
+4. Add the secrets shown in `supabase/functions/.env.example` in Supabase Edge Function secrets.
+5. In Supabase Auth URL Configuration, allow the deployed `admin.html` URL as a redirect URL.
+6. Configure a verified sender/domain in Resend. Twilio is optional for SMS.
+
+The database denies anonymous reads. Only email addresses listed in `admin_users` can view or update bookings.
 
 Do not place private API keys in a public GitHub Pages repository.
 
 ## GitHub Pages
 
-This project has no build step. Upload the files to a repository and enable Pages from the main branch. A custom subdomain such as `book.peakfinishautomotive.com` can be attached after deployment.
+This project has no build step. Enable Pages from the main branch. A custom subdomain such as `book.peakfinishautomotive.com` can be attached after deployment.

@@ -1,0 +1,15 @@
+(function () {
+  const cfg = window.PEAK_FINISH_CONFIG || {};
+  const configured = Boolean(cfg.supabaseUrl && cfg.supabasePublishableKey && window.supabase);
+  const client = configured ? window.supabase.createClient(cfg.supabaseUrl, cfg.supabasePublishableKey) : null;
+  function toRow(r) { return {order_number:r.order,status:r.status,customer_name:r.customerName,phone:r.phone,email:r.email,address:r.address,vehicle_make:r.make,vehicle_model:r.model,vehicle_year:r.year||null,registration:r.registration||null,vehicle_size:r.vehicleSize,condition_level:r.condition,condition_flags:[].concat(r.flags||[]).filter(Boolean),condition_notes:r.conditionNotes||null,package_id:r.package,addons:[].concat(r.addons||[]).filter(Boolean),preferred_date:r.date,preferred_time:r.time,payment_method:r.payment,estimated_total:r.estimatedTotal,review_url:r.reviewUrl}; }
+  function fromRow(r) { return {id:r.id,order:r.order_number,status:r.status,customerName:r.customer_name,phone:r.phone,email:r.email,address:r.address,make:r.vehicle_make,model:r.vehicle_model,year:r.vehicle_year,registration:r.registration,vehicleSize:r.vehicle_size,condition:r.condition_level,flags:r.condition_flags||[],conditionNotes:r.condition_notes,package:r.package_id,addons:r.addons||[],date:r.preferred_date,time:r.preferred_time,payment:r.payment_method,estimatedTotal:r.estimated_total,createdAt:r.created_at,reviewSentAt:r.review_sent_at}; }
+  async function createBooking(record){if(!configured){const x=JSON.parse(localStorage.getItem('peakFinishOrders')||'[]');x.unshift(record);localStorage.setItem('peakFinishOrders',JSON.stringify(x));return{data:record,preview:true}}const{data,error}=await client.functions.invoke('submit-booking',{body:toRow(record)});if(error)throw error;return{data,preview:false}}
+  async function signIn(email){if(!configured)throw new Error('Secure database is not configured yet.');const{error}=await client.auth.signInWithOtp({email,options:{emailRedirectTo:cfg.adminRedirectUrl}});if(error)throw error}
+  async function signOut(){if(client)await client.auth.signOut()}
+  async function session(){return client?(await client.auth.getSession()).data.session:null}
+  async function listBookings(){if(!configured)return JSON.parse(localStorage.getItem('peakFinishOrders')||'[]');const{data,error}=await client.from('bookings').select('*').order('created_at',{ascending:false});if(error)throw error;return data.map(fromRow)}
+  async function updateStatus(id,status){if(!configured){const x=JSON.parse(localStorage.getItem('peakFinishOrders')||'[]');const j=x.find(v=>v.id===id||v.order===id);if(j)j.status=status;localStorage.setItem('peakFinishOrders',JSON.stringify(x));return}const{error}=await client.from('bookings').update({status}).eq('id',id);if(error)throw error}
+  async function sendReview(id){if(!configured)return{preview:true};const{data,error}=await client.functions.invoke('send-review',{body:{bookingId:id}});if(error)throw error;return data}
+  window.PeakDB={configured,client,createBooking,signIn,signOut,session,listBookings,updateStatus,sendReview};
+})();
