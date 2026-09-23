@@ -23,7 +23,8 @@ function clean(value: unknown, max = 500) {
   return typeof value === "string" ? value.trim().slice(0, max) : value;
 }
 
-Deno.serve(async (request) => {
+export default {
+async fetch(request: Request) {
   if (request.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (request.method !== "POST") {
     return Response.json({ error: "Method not allowed" }, { status: 405, headers: cors });
@@ -87,4 +88,5 @@ Deno.serve(async (request) => {
     console.error(error);
     return Response.json({ error: "Unable to create booking" }, { status: 400, headers: cors });
   }
-});
+}
+};
