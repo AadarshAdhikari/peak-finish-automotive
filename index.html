@@ -93,19 +93,21 @@
         <section class="form-step" data-step="5">
           <div class="step-heading"><span>5</span><div><h3>Where and when?</h3><p>We come to your home or workplace across Sydney.</p></div></div>
           <div class="field-grid two">
-            <label>Full name<input name="customerName" required autocomplete="name"></label>
+            <label>First name<input name="firstName" required autocomplete="given-name"></label>
+            <label>Last name<input name="lastName" required autocomplete="family-name"></label>
             <label>Mobile number<input name="phone" required type="tel" autocomplete="tel" placeholder="04xx xxx xxx"></label>
             <label>Email<input name="email" required type="email" autocomplete="email"></label>
+            <label class="wide">Street address<input name="streetAddress" required autocomplete="address-line1" placeholder="House number and street name"></label>
+            <label>Suburb<input name="suburb" required autocomplete="address-level2" placeholder="e.g. Auburn"></label>
+            <label>Postcode<input name="postcode" required autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="e.g. 2144"></label>
             <label>Preferred date<input name="date" required type="date"></label>
-            <label class="wide">Service address<input name="address" required autocomplete="street-address" placeholder="Street, suburb and postcode"></label>
             <label>Preferred time<select name="time" required><option value="">Choose a time</option><option>7:00 am – 10:00 am</option><option>10:00 am – 1:00 pm</option><option>1:00 pm – 5:00 pm</option><option>Flexible</option></select></label>
-            <label>Payment method<select name="payment" required><option value="">Choose payment</option><option>Cash on completion</option><option>PayID</option><option>Bank transfer</option><option>EFTPOS</option></select></label>
+            <label class="wide">Payment method<select name="payment" required><option value="">Choose payment</option><option>Cash on completion</option><option>PayID</option><option>Bank transfer</option><option>EFTPOS</option></select></label>
           </div>
           <div class="requirements">
-            <strong>Location requirements</strong>
-            <label><input type="checkbox" name="water" required> Outdoor water tap is available</label>
-            <label><input type="checkbox" name="power" required> Standard power outlet is available</label>
-            <label><input type="checkbox" name="parking" required> Safe, legal working space is available</label>
+            <strong>You must confirm this requirement to continue</strong>
+            <p>(Peak Finish Automotive only requires access to water and electricity from the customer.)</p>
+            <label><input type="checkbox" name="utilities" required> Water and electricity supply are available</label>
           </div>
         </section>
 
@@ -125,6 +127,7 @@
           <button type="button" class="primary" id="nextBtn">Continue</button>
           <button type="submit" class="primary" id="submitBtn" hidden>Send booking request</button>
         </div>
+        <p id="stepError" class="form-error" role="alert" hidden></p>
       </form>
 
       <section id="successPanel" class="success-panel" hidden>
