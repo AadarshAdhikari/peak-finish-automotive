@@ -5,7 +5,8 @@ const cors = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-Deno.serve(async (request) => {
+export default {
+async fetch(request: Request) {
   if (request.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (request.method !== "POST") {
     return Response.json({ error: "Method not allowed" }, { status: 405, headers: cors });
@@ -53,7 +54,7 @@ Deno.serve(async (request) => {
         body: JSON.stringify({
           from: fromEmail,
           to: booking.email,
-          subject: "How did we do? – Peak Finish Automotive",
+          subject: "How did we do? â Peak Finish Automotive",
           html: `<p>${message.replace(reviewUrl, `<a href="${reviewUrl}">Leave a Google review</a>`)}</p>`,
         }),
       });
@@ -89,4 +90,5 @@ Deno.serve(async (request) => {
     console.error(error);
     return Response.json({ error: "Unable to send review request" }, { status: 400, headers: cors });
   }
-});
+}
+};
